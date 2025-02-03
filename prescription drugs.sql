@@ -42,12 +42,14 @@ GROUP BY specialty_description
 ORDER BY total_opioid_claims DESC;
 
 SELECT specialty_description
-FROM prescription
-FULL JOIN prescriber
+FROM prescriber
+GROUP BY specialty_description
+EXCEPT
+SELECT specialty_description
+FROM prescriber
+INNER JOIN prescription
 USING (npi)
-WHERE total_claim_count IS NULL
 GROUP BY specialty_description;
--- (challenge question) 92 specialties seems like a lot, not sure if I did this one right
 
 WITH opioids AS (
 	SELECT drug_name
